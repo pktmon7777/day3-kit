@@ -5,7 +5,7 @@ CI 가 넘겨 주는 환경변수: BASE_SHA(비교 기준) · PR_NUMBER · REPO(
 로컬에서 시험: py kit.py review-pr --base main   (코멘트는 달지 않고 화면에만)
 판정은 M1 게이트와 같다: high 1건 이상 또는 리뷰 실패 → FAIL(종료 코드 1).
 """
-import json, os, subprocess, sys, urllib.request
+import json, os, re, subprocess, sys, urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common, review
 
@@ -78,6 +78,54 @@ def post_comment(body):
         print(f"[review-pr] 코멘트 실패 (판정과 무관): {e}")
 
 
+def diff_lines(diff):
+    """diff 의 hunk 에 보이는 변경 후 파일 라인번호 집합 (추가 줄 + 문맥 줄). GitHub 인라인 코멘트가 붙을 수 있는 줄."""
+    seen, cur = set(), None
+    for ln in diff.splitlines():
+        if ln.startswith("@@"):
+            m = re.search(r"\+(\d+)", ln)
+            cur = int(m.group(1)) if m else None
+        elif cur is None or ln.startswith(("---", "+++", "\\")):
+            continue
+        elif ln.startswith("-"):
+            continue
+        else:
+            seen.add(cur)
+            cur += 1
+    return seen
+
+
+def post_inline(findings, diff):
+    """diff 안 지적을 그 줄에 인라인 코멘트로 단다. 못 단 지적이 있으면 결과 코멘트에 넣을 한 줄을 돌려준다(없으면 "").
+    게이트 규칙 G6 · gate_ac.md — 판정에는 영향을 주지 않는다."""
+    repo, pr = os.environ.get("REPO"), os.environ.get("PR_NUMBER")
+    token, sha = os.environ.get("GH_TOKEN"), os.environ.get("HEAD_SHA")
+    if not (repo and pr and token and sha):
+        print("[review-pr] REPO · PR_NUMBER · GH_TOKEN · HEAD_SHA 가 없어 인라인 코멘트는 생략 (로컬 실행)")
+        return ""
+    inside = diff_lines(diff)
+    failed = []
+    for f in findings:
+        line = f.get("line")
+        if not isinstance(line, int) or line not in inside:
+            continue  # diff 밖 지적은 인라인 대상이 아니다 (결과 코멘트에서 다룬다)
+        body = f"**{f.get('severity')}** [{f.get('category')}] {f.get('message', '')}"
+        payload = {"body": body, "commit_id": sha, "path": f.get("file") or TARGET, "line": line, "side": "RIGHT"}
+        req = urllib.request.Request(f"https://api.github.com/repos/{repo}/pulls/{pr}/comments",
+                                     data=json.dumps(payload).encode("utf-8"), method="POST",
+                                     headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json",
+                                              "Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                print(f"[review-pr] 인라인 코멘트 {payload['path']}:{line} ({r.status})")
+        except Exception as e:
+            print(f"[review-pr] 인라인 코멘트 실패 {payload['path']}:{line} (판정과 무관): {e}")
+            failed.append(line)
+    if failed:
+        return "인라인 코멘트를 달지 못한 줄: " + ", ".join(str(n) for n in failed) + " (판정과 무관)"
+    return ""
+
+
 def review_pr(base=None, mock=False):
     base = base or os.environ.get("BASE_SHA") or "main"
     d = git("diff", f"{base}...HEAD", "--", TARGET)
@@ -105,5 +153,7 @@ def review_pr(base=None, mock=False):
     for f in res.get("findings", []):
         print(f"  {f.get('severity','?').upper():6} {f.get('file')}:{f.get('line')} [{f.get('category')}] {f.get('message','')}")
     print("GATE:", verdict)
-    post_comment(comment_body(h, is_measured, res, verdict))
+    note = post_inline(res.get("findings", []), d.stdout)
+    body = comment_body(h, is_measured, res, verdict)
+    post_comment(body + (f"\n\n{note}" if note else ""))
     return ok
