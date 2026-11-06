@@ -1,0 +1,15 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 36,
+      "category": "buffer-overflow",
+      "severity": "high",
+      "message": "루프 조건이 i <= MAX_HISTORY로 바뀌어 i == MAX_HISTORY일 때 history[MAX_HISTORY]에 쓰므로 배열 경계를 1칸 초과한다 (i < MAX_HISTORY여야 함)."
+    }
+  ],
+  "_meta": {
+    "seconds": 7.5,
+    "cost_usd": 0.017332900000000002
+  }
+}

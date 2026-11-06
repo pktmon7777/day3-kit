@@ -1,0 +1,11 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 24,
+      "category": "unchecked-return",
+      "severity": "high",
+      "message": "malloc 반환값 NULL 체크 없음 (C2)"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+# M5 — PR 의 C 코드 변경을 AI 리뷰어가 본다.
+# 내 PC 의 self-hosted 러너에서 돈다: 로그인된 Claude Code 를 그대로 쓰므로 시크릿 · API 키가 필요 없다.
+# 판정(ERROR · FAIL · REVIEW · PASS): gate_ac.md 「1. 리뷰 게이트」 G1 ~ G8 — 판정 코드는 scripts/review_pr.py
+name: pr-review
+on:
+  pull_request:
+    paths: ['src/**']
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+jobs:
+  review:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: AI 리뷰어 — 이 PR 의 diff 를 리뷰하고 코멘트 (ERROR · FAIL · REVIEW · PASS — gate_ac.md)
+        shell: cmd
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}   # 인라인 코멘트를 달 커밋(게이트 규칙 G6)
+          PYTHONIOENCODING: utf-8
+        run: py kit.py review-pr

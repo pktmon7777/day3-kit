@@ -1,0 +1,11 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 7,
+      "category": "magic-number",
+      "severity": "high",
+      "message": "숫자 리터럴 0 사용 (C4)"
+    }
+  ]
+}

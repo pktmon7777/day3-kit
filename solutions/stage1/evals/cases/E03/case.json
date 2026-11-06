@@ -1,0 +1,11 @@
+{
+  "id": "E03",
+  "desc": "copy_values() NULL 체크 제거",
+  "file": "src/compute.c",
+  "expected": [
+    {
+      "category": "unchecked-return",
+      "line": 24
+    }
+  ]
+}

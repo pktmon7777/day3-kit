@@ -1,0 +1,15 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 16,
+      "category": "div-by-zero",
+      "severity": "high",
+      "message": "count <= 0 가드가 삭제되어 count가 0이면 0으로 나누기가 발생한다."
+    }
+  ],
+  "_meta": {
+    "seconds": 6.0,
+    "cost_usd": 0.016725900000000002
+  }
+}

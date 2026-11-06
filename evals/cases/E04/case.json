@@ -1,0 +1,6 @@
+{
+  "id": "E04",
+  "desc": "apply_discount() 상수 → 리터럴",
+  "file": "src/compute.c",
+  "expected": "TODO: diff를 보고 정답을 직접 채우세요 [{category, line}]"
+}

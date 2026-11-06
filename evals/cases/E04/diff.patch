@@ -1,0 +1,9 @@
+--- a/src/compute.c
++++ b/src/compute.c
+@@ -40,5 +40,5 @@
+ 
+ int apply_discount(int price, int percent)
+ {
+-    return price - (price * percent) / PERCENT_BASE;
++    return price - (price * percent) / 100;
+ }

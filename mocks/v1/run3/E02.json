@@ -1,0 +1,11 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 36,
+      "category": "buffer-overflow",
+      "severity": "high",
+      "message": "i == MAX_HISTORY에서 배열 경계 초과"
+    }
+  ]
+}

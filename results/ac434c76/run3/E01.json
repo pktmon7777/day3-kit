@@ -1,0 +1,15 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 16,
+      "category": "div-by-zero",
+      "severity": "high",
+      "message": "count가 0일 때 나누기 0 발생 — 삭제된 count <= 0 가드로 인해 average()가 count==0 입력에서 0으로 나눈다."
+    }
+  ],
+  "_meta": {
+    "seconds": 8.2,
+    "cost_usd": 0.0169459
+  }
+}

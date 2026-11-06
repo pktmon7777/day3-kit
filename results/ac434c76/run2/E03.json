@@ -1,0 +1,15 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 24,
+      "category": "unchecked-return",
+      "severity": "high",
+      "message": "malloc 결과의 NULL 체크가 삭제되어, 할당 실패 시 26행에서 NULL 역참조가 발생한다."
+    }
+  ],
+  "_meta": {
+    "seconds": 6.9,
+    "cost_usd": 0.0168602
+  }
+}

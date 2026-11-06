@@ -1,0 +1,11 @@
+{
+  "id": "E01",
+  "desc": "average() 가드 제거",
+  "file": "src/compute.c",
+  "expected": [
+    {
+      "category": "div-by-zero",
+      "line": 16
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "harness_hash": "ac434c76",
+  "runs": 3,
+  "modes": [
+    "error",
+    "live:sonnet"
+  ],
+  "errors": 1,
+  "cost_usd_total": 0.7051,
+  "harness_files": [
+    "conventions.md",
+    "reviewer.md"
+  ],
+  "recorded_at": "2026-10-31T21:30:14"
+}

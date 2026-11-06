@@ -1,0 +1,6 @@
+{
+  "id": "E05",
+  "desc": "sum_values() 변수명 리팩터링 (정상)",
+  "file": "src/compute.c",
+  "expected": []
+}

@@ -1,0 +1,15 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 43,
+      "category": "magic-number",
+      "severity": "low",
+      "message": "리터럴 100을 사용함 (PERCENT_BASE 상수를 제거하고 매직넘버로 되돌림) — C1 위반, #define 상수를 써야 한다."
+    }
+  ],
+  "_meta": {
+    "seconds": 6.9,
+    "cost_usd": 0.0815379
+  }
+}

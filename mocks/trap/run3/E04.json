@@ -1,0 +1,11 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 43,
+      "category": "magic-number",
+      "severity": "high",
+      "message": "숫자 리터럴 100 대신 PERCENT_BASE 사용 (C1)"
+    }
+  ]
+}

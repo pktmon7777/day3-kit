@@ -1,0 +1,17 @@
+# M5 — 리뷰어(하네스)를 바꾼 PR 은 측정된 버전만 들어온다.
+# 측정은 로컬에서(py kit.py record) 하고 results/<해시> 를 커밋한다. CI 는 「측정 결과가 있는가 + 기준을 넘는가」만 본다.
+# 판정 조건(PASS · FAIL): gate_ac.md 「2. 리뷰어 게이트」 H1 ~ H3 — 판정 코드는 scripts/ci_check.py · kit.py ci
+name: harness-gate
+on:
+  pull_request:
+    paths: ['harness/**', 'evals/**', 'results/**']
+jobs:
+  gate:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: 리뷰어 측정 확인 — 측정된 하네스 버전 + 기준 통과만 PASS
+        shell: cmd
+        env:
+          PYTHONIOENCODING: utf-8
+        run: py kit.py ci

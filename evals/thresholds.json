@@ -1,0 +1,5 @@
+{
+  "min_recall": 0.75,
+  "max_fp_per_run": 0.5,
+  "max_schema_errors": 0
+}

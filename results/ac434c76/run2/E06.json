@@ -1,0 +1,15 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 49,
+      "category": "magic-number",
+      "severity": "low",
+      "message": "clamp_percent의 하한 반환값 0은 허용된 리터럴(0)이므로 문제 없음 — 단, 상한 클램프가 PERCENT_BASE 상수를 사용하는 것은 적절함"
+    }
+  ],
+  "_meta": {
+    "seconds": 6.4,
+    "cost_usd": 0.0171358
+  }
+}

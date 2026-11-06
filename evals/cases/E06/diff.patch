@@ -1,0 +1,17 @@
+--- a/src/compute.c
++++ b/src/compute.c
+@@ -42,3 +42,14 @@
+ {
+     return price - (price * percent) / PERCENT_BASE;
+ }
++
++int clamp_percent(int percent)
++{
++    if (percent < 0) {
++        return 0;
++    }
++    if (percent > PERCENT_BASE) {
++        return PERCENT_BASE;
++    }
++    return percent;
++}

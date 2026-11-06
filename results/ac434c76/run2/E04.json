@@ -1,0 +1,15 @@
+{
+  "findings": [
+    {
+      "file": "src/compute.c",
+      "line": 43,
+      "category": "magic-number",
+      "severity": "low",
+      "message": "매직넘버 100 사용: 상수 PERCENT_BASE를 #define으로 정의해 사용해야 하며, 이번 diff에서 기존 PERCENT_BASE를 리터럴 100으로 되돌렸다."
+    }
+  ],
+  "_meta": {
+    "seconds": 7.8,
+    "cost_usd": 0.0171585
+  }
+}

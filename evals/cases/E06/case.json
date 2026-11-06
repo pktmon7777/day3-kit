@@ -1,0 +1,6 @@
+{
+  "id": "E06",
+  "desc": "clamp_percent() 추가",
+  "file": "src/compute.c",
+  "expected": "TODO: diff를 보고 정답을 직접 채우세요 [{category, line}]"
+}

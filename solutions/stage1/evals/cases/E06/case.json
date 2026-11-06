@@ -1,0 +1,6 @@
+{
+  "id": "E06",
+  "desc": "clamp_percent() 추가",
+  "file": "src/compute.c",
+  "expected": []
+}

@@ -1,0 +1,9 @@
+{
+  "_error": "JSON 파싱 실패",
+  "raw": "{\"findings\":[{\"file\":\"src/compute.c\",\"line\":49,\"category\":\"magic-number\",\"severity\":\"low\",\"message\":\"clamp_percent의 하한 반환값 0은 허용된 리터럴(0)이므로 문제 없음\"}]}\n\nCorrection: the finding above is invalid and should be disregarded.\n\n{\"findings\":[]}",
+  "stderr": "Warning: claude.ai MCP servers blocked by enterprise policy: claude.ai Claude Docs, claude.ai Google Drive\n",
+  "_meta": {
+    "seconds": 7.0,
+    "cost_usd": 0.0851203
+  }
+}

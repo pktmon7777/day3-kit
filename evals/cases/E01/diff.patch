@@ -1,0 +1,12 @@
+--- a/src/compute.c
++++ b/src/compute.c
+@@ -13,9 +13,6 @@
+ 
+ int average(const int *values, int count)
+ {
+-    if (count <= 0) {
+-        return 0;
+-    }
+     return sum_values(values, count) / count;
+ }
+ 

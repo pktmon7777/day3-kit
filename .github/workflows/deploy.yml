@@ -1,0 +1,37 @@
+# M5 덧붙임 — main 에 들어온 코드(PR 병합)를 빌드 · 시험한 뒤 결과물을 Actions 아티팩트로 남긴다(= 이 실습의 배포).
+# 내 PC 러너에서 돈다. gcc 는 S0 에서 받은 %PUBLIC%\vsm-gcc 를 쓴다.
+# 판정 조건(배포한다 · 안 한다): gate_ac.md 「3. 배포」 D1 ~ D3 — 아래 빌드 · 시험 단계가 실패하면 배포 단계까지 가지 않는다
+name: deploy
+on:
+  push:
+    branches: [main]      # PR 을 병합하면 돈다(되돌림처럼 바뀐 것이 없어 보이는 병합도)
+  workflow_dispatch:      # Actions 탭에서 손으로도 돌릴 수 있다
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: 빌드 — src/compute.c → libcompute.a
+        shell: cmd
+        run: |
+          set "PATH=%PUBLIC%\vsm-gcc\mingw32\bin;%PATH%"
+          if not exist dist mkdir dist
+          gcc -std=c11 -Wall -Werror -Isrc -c src\compute.c -o dist\compute.o || exit /b 1
+          ar rcs dist\libcompute.a dist\compute.o || exit /b 1
+          copy /y src\compute.h dist\ > nul
+      - name: 시험 — tests/test_compute.c (하나라도 틀리면 배포하지 않는다)
+        shell: cmd
+        run: |
+          set "PATH=%PUBLIC%\vsm-gcc\mingw32\bin;%PATH%"
+          gcc -std=c11 -Wall -Isrc tests\test_compute.c dist\libcompute.a -o dist\test_compute.exe || exit /b 1
+          dist\test_compute.exe
+      - name: 배포 — 결과물을 아티팩트로
+        uses: actions/upload-artifact@v4
+        with:
+          name: compute-${{ github.run_number }}
+          path: |
+            dist/libcompute.a
+            dist/compute.h
+            dist/test_compute.exe

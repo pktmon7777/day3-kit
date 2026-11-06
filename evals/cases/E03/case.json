@@ -1,0 +1,6 @@
+{
+  "id": "E03",
+  "desc": "copy_values() NULL 체크 제거",
+  "file": "src/compute.c",
+  "expected": "TODO: diff를 보고 정답을 직접 채우세요 [{category, line}]"
+}

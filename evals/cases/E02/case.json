@@ -1,0 +1,6 @@
+{
+  "id": "E02",
+  "desc": "fill_history() 루프 조건 변경",
+  "file": "src/compute.c",
+  "expected": "TODO: diff를 보고 정답을 직접 채우세요 [{category, line}]"
+}
