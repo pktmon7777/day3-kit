@@ -13,9 +13,6 @@ int sum_values(const int *values, int count)
 
 int average(const int *values, int count)
 {
-    if (count <= 0) {
-        return 0;
-    }
     return sum_values(values, count) / count;
 }
 
